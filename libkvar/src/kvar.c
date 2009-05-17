@@ -41,7 +41,7 @@ void kvar_dispose_storage(kvar_storage_ptr store)
 kvar_var_ptr kvar_get(kvar_storage_ptr store, char *name)
 {
     int index;
-    for (index = 0; index < store->num_vars; index++)
+    for (index = 0; index < MAX_VARS; index++)
     {
         if (strcmp(store->vars[index].name, name) == 0)
         {
@@ -137,6 +137,10 @@ kvar_var_ptr kvar_create_array(int *content, int length)
 
 int kvar_extract_int(kvar_var_ptr var)
 {
+    if (var == NULL)
+    {
+        return -1;
+    }
     if (var->type == kvar_type_number)
     {
         return *((int*)var->content);
@@ -149,6 +153,10 @@ int kvar_extract_int(kvar_var_ptr var)
 
 int* kvar_extract_array(kvar_var_ptr var)
 {
+    if (var == NULL)
+    {
+        return NULL;
+    }
     if (var->type == kvar_type_array)
     {
         return ((kvar_array_ptr)var->content)->array;
@@ -161,6 +169,10 @@ int* kvar_extract_array(kvar_var_ptr var)
 
 int kvar_extract_array_length(kvar_var_ptr var)
 {
+    if (var == NULL)
+    {
+        return -1;
+    }
     if (var->type == kvar_type_array)
     {
         return ((kvar_array_ptr)var->content)->length;
