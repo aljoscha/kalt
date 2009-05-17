@@ -113,7 +113,7 @@ void kvar_delete(kvar_storage_ptr store, char *name)
 
 }
 
-kvar_var_ptr kvar_create_int(int value)
+kvar_var_ptr kvar_create_number(int value)
 {
     kvar_var_ptr temp = malloc(sizeof(kvar_var));
     temp->type = kvar_type_number;
@@ -135,7 +135,7 @@ kvar_var_ptr kvar_create_array(int *content, int length)
     return temp;
 }
 
-int kvar_extract_int(kvar_var_ptr var)
+int kvar_extract_number(kvar_var_ptr var)
 {
     if (var == NULL)
     {

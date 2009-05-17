@@ -5,12 +5,12 @@ int main(void)
 {
     kvar_storage_ptr store = kvar_create_storage();
     kvar_print_vars(store);    
-    kvar_var_ptr num = kvar_create_int(17);
+    kvar_var_ptr num = kvar_create_number(17);
     kvar_set(store, "bhallo", num);
-    num = kvar_create_int(11);
+    num = kvar_create_number(11);
     kvar_set(store, "foo", num);
 
-    int foo = kvar_extract_int(kvar_get(store, "foo"));
+    int foo = kvar_extract_number(kvar_get(store, "foo"));
     printf ("foo is: %d\n", foo);
 
     kvar_print_vars(store);    
@@ -19,10 +19,10 @@ int main(void)
     kvar_var_ptr arr = kvar_create_array(nums, 10);
     kvar_set(store, "arr", arr);
     
-    foo = kvar_extract_int(kvar_get(store, "arr"));
+    foo = kvar_extract_number(kvar_get(store, "arr"));
     printf ("foo is: %d\n", foo);
 
-    num = kvar_create_int(30);
+    num = kvar_create_number(30);
     kvar_set(store, "foo", num);
 
     kvar_delete(store, "hallo");

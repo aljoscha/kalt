@@ -43,10 +43,10 @@ kvar_var_ptr kvar_get(kvar_storage_ptr, char *name);
 void kvar_set(kvar_storage_ptr, char *name, kvar_var_ptr);
 void kvar_delete(kvar_storage_ptr, char *name);
 
-kvar_var_ptr kvar_create_int(int value);
+kvar_var_ptr kvar_create_number(int value);
 kvar_var_ptr kvar_create_array(int *content, int length);
 
-int kvar_extract_int(kvar_var_ptr var);
+int kvar_extract_number(kvar_var_ptr var);
 int* kvar_extract_array(kvar_var_ptr var);
 int kvar_extract_array_length(kvar_var_ptr var);
 
