@@ -135,6 +135,13 @@ parse_result parse_tokenize(char *text)
 
 void parse_dispose_result(parse_result parse)
 {
+    int index;
+    for (index = 0; index < parse.token_count; index++)
+    {
+        if(parse.tokens[index].text != NULL)
+            free(parse.tokens[index].text);
+    }
+    free(parse.tokens);
 }
 
 void parse_dump(parse_result parse)
