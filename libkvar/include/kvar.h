@@ -20,7 +20,11 @@ typedef struct kvar_array_t
 typedef struct kvar_var_t
 {
     kvar_type type;
-    void *content;
+    union
+    {
+        int number;
+        kvar_array_ptr array;
+    };
 } kvar_var, *kvar_var_ptr;
 
 typedef struct kvar_node_t

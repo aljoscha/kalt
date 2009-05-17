@@ -81,7 +81,6 @@ void kvar_set(kvar_storage_ptr store, char *name, kvar_var_ptr var)
 void kvar_delete(kvar_storage_ptr store, char *name)
 {
     int index;
-    kvar_array_ptr arr;
     kvar_var_ptr var;
     for (index = 0; index < MAX_VARS; index++)
     {
@@ -93,15 +92,13 @@ void kvar_delete(kvar_storage_ptr store, char *name)
                 case kvar_type_number:
                     {
                         DOUT("kvar_delete: deleting variable \""); DOUT(name); DOUT("\" of type number\n");
-                        free(var->content);
                         free(var);
                     } break;
                 case kvar_type_array:
                     {
                         DOUT("kvar_delete: deleting variable \""); DOUT(name); DOUT("\" of type array\n");
-                        arr = (kvar_array*)var->content;
-                        free(arr->array);
-                        free(arr);
+                        free(var->array->array);
+                        free(var->array);
                         free(var);
                     } break;
             } 
@@ -117,21 +114,18 @@ kvar_var_ptr kvar_create_number(int value)
 {
     kvar_var_ptr temp = malloc(sizeof(kvar_var));
     temp->type = kvar_type_number;
-    temp->content = malloc(sizeof(int));
-    *((int*)temp->content) = value;
+    temp->number = value;
     return temp;
 }
 
 kvar_var_ptr kvar_create_array(int *content, int length)
 {
     kvar_var_ptr temp = malloc(sizeof(kvar_var));
-    kvar_array_ptr arr;
     temp->type = kvar_type_array;
-    arr = malloc(sizeof(kvar_array));
-    arr->length = length;
-    arr->array = malloc(sizeof(int)*length);
-    memcpy(arr->array, content, sizeof(int)*length);
-    temp->content = (void*)arr;
+    temp->array = malloc(sizeof(kvar_array));
+    temp->array->length = length;
+    temp->array->array = malloc(sizeof(int)*length);
+    memcpy(temp->array->array, content, sizeof(int)*length);
     return temp;
 }
 
@@ -143,7 +137,7 @@ int kvar_extract_number(kvar_var_ptr var)
     }
     if (var->type == kvar_type_number)
     {
-        return *((int*)var->content);
+        return var->number;
     }
     else
     {
@@ -159,7 +153,7 @@ int* kvar_extract_array(kvar_var_ptr var)
     }
     if (var->type == kvar_type_array)
     {
-        return ((kvar_array_ptr)var->content)->array;
+        return var->array->array;
     }
     else
     {
@@ -175,7 +169,7 @@ int kvar_extract_array_length(kvar_var_ptr var)
     }
     if (var->type == kvar_type_array)
     {
-        return ((kvar_array_ptr)var->content)->length;
+        return var->array->length;
     }
     else
     {
@@ -196,12 +190,12 @@ void kvar_print_vars(kvar_storage_ptr store)
             {
                 case kvar_type_number:
                     {
-                        printf("%s: %d\n", store->vars[index].name, *((int*)store->vars[index].content->content));
+                        printf("%s: %d\n", store->vars[index].name, store->vars[index].content->number);
                     } break;
                 case kvar_type_array:
                     {
                         printf("%s: ", store->vars[index].name);
-                        arr = (kvar_array_ptr)store->vars[index].content->content;
+                        arr = store->vars[index].content->array;
                         for (index2 = 0; index2 < arr->length; index2++)
                         {
                             printf("%d ", arr->array[index2]);
