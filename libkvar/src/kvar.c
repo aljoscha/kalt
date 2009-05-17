@@ -35,7 +35,7 @@ void kvar_dispose_storage(kvar_storage_ptr store)
     {
        kvar_delete(store, store->vars[index].name);
     }
-
+    free(store);
 }
 
 kvar_var_ptr kvar_get(kvar_storage_ptr store, char *name)
