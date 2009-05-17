@@ -24,7 +24,22 @@ parse_result parse_tokenize(char *text)
     int currently_parsing = 0;
     while (text[text_position] != '\0')
     {
-
+        if (parsed_position > 0)
+        {
+            if (!(isalpha(text[text_position]) || isdigit(text[text_position])))
+            {
+                current_parse[parsed_position] = '\0';
+                tokens[token_count].text = malloc(parsed_position+1);
+                if (currently_parsing == PARSING_NUMBER)
+                    tokens[token_count].type = TOKEN_NUMBER;
+                else
+                    tokens[token_count].type = TOKEN_IDENTIFIER;
+                strcpy(tokens[token_count].text, current_parse);
+                token_count++;
+                currently_parsing = 0;
+                parsed_position = 0;
+            } 
+        }
         if(text[text_position] == '=')
         {
             tokens[token_count].type = TOKEN_ASSIGN;
@@ -75,20 +90,6 @@ parse_result parse_tokenize(char *text)
         }
         if(text[text_position] == ' ') // finalize the currently parsed token if there is one
         {
-            if(parsed_position > 0)
-            {
-                current_parse[parsed_position] = '\0';
-                tokens[token_count].text = malloc(parsed_position+1);
-                if (currently_parsing == PARSING_NUMBER)
-                    tokens[token_count].type = TOKEN_NUMBER;
-                else
-                    tokens[token_count].type = TOKEN_IDENTIFIER;
-                strcpy(tokens[token_count].text, current_parse);
-                token_count++;
-                currently_parsing = 0;
-                parsed_position = 0;
-            }
-
             text_position++; 
             continue;       
         }
@@ -158,6 +159,10 @@ void parse_dump(parse_result parse)
             case TOKEN_NUMBER:
                 {
                     printf("NUMBER: %s\n", parse.tokens[index].text);
+                } break;
+            case TOKEN_ASSIGN:
+                {
+                    printf("ASSIGN\n");
                 } break;
             case TOKEN_LPAREN:
                 {
