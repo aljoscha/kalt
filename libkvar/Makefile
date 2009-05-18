@@ -10,7 +10,7 @@ CCFLAGS = -I$(INCDIR)
 $(LIBDIR)/libkvar.a : $(LIBDIR)/kvar.o
 	ar rcs $(LIBDIR)/libkvar.a $(LIBDIR)/kvar.o
 
-$(LIBDIR)/kvar.o : $(SRCDIR)/kvar.c
+$(LIBDIR)/kvar.o : $(SRCDIR)/kvar.c $(INCDIR)/kvar.h
 	$(CC) -c $(SRCDIR)/kvar.c -o $(LIBDIR)/kvar.o $(CCFLAGS)
 
 .PHONY : clean
