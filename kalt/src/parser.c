@@ -127,6 +127,23 @@ parse_result parse_tokenize(char *text)
         }
 
     }
+
+    if (parsed_position > 0)
+    {
+        if (!(isalpha(text[text_position]) || isdigit(text[text_position])))
+        {
+            current_parse[parsed_position] = '\0';
+            tokens[token_count].text = malloc(parsed_position+1);
+            if (currently_parsing == PARSING_NUMBER)
+                tokens[token_count].type = TOKEN_NUMBER;
+            else
+                tokens[token_count].type = TOKEN_IDENTIFIER;
+            strcpy(tokens[token_count].text, current_parse);
+            token_count++;
+            currently_parsing = 0;
+            parsed_position = 0;
+        } 
+    }
     result.success = 1;
     result.error_str = "no error";
     result.token_count = token_count;
