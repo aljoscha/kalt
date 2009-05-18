@@ -100,6 +100,7 @@ parse_result parse_tokenize(char *text)
                 result.success = 0;
                 result.error_str = "invalid character, number expected";
                 result.token_count = 0;
+                result.tokens = NULL;
                 return result;
             }
             currently_parsing = PARSING_IDENTIFIER;
@@ -115,6 +116,7 @@ parse_result parse_tokenize(char *text)
                 result.success = 0;
                 result.error_str = "invalid character, alphanumeric expected";
                 result.token_count = 0;
+                result.tokens = NULL;
                 return result;
             }
             currently_parsing = PARSING_NUMBER;
