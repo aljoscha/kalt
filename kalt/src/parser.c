@@ -137,6 +137,8 @@ parse_result parse_tokenize(char *text)
 
 void parse_dispose_result(parse_result parse)
 {
+    if (parse.tokens == NULL)
+        return;
     int index;
     for (index = 0; index < parse.token_count; index++)
     {
@@ -144,6 +146,21 @@ void parse_dispose_result(parse_result parse)
             free(parse.tokens[index].text);
     }
     free(parse.tokens);
+}
+
+parse_result parse_create_subset(parse_result parse, int first, int last)
+{
+    parse_result subset;
+    
+    if (last >= parse.token_count)
+        last = parse.token_count - 1;
+    if (first < 0)
+        first = 0;
+    subset.success = parse.success;
+    subset.error_str = parse.error_str;
+    subset.tokens = parse.tokens + first;
+    subset.token_count = last-first+1;
+    return subset;
 }
 
 void parse_dump(parse_result parse)
@@ -157,6 +174,7 @@ void parse_dump(parse_result parse)
         printf("parse was not successfull: %s\n", parse.error_str);
         return;
     }
+    printf("token count: %d\n", parse.token_count);
     for (index = 0; index < parse.token_count; index++)
     {
         switch(parse.tokens[index].type)
