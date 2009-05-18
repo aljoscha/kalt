@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "parser.h"
 #include "syntax.h"
+#include "compile.h"
 
 #define VERSION 1
 
@@ -8,8 +9,7 @@
 int main(void)
 {
     printf("Welcome to kalt - Krettek Algorithmus Tester version %d\n", VERSION);
-    parse_result result = parse_tokenize("hallo = aljoshca(ali,foom = ali)");
-    //parse_result result = parse_tokenize("foom = ");
+    parse_result result = parse_tokenize("ali(bere,corni)");
     parse_dump(result);
     syntax_result syn_result = syntax_check(result);
     if (syn_result.success == 1)
@@ -20,6 +20,9 @@ int main(void)
     {
         printf("Syntax error: %s\n", syn_result.error_str);
     }
+    bytecode_program program = compile_program(result);
+    compile_dump_program(program);
+    compile_dispose_program(program);
     /*parse_result subset = parse_create_subset(result,8,9);
     parse_dump(subset);
     subset = parse_create_subset(subset, 0,0);
