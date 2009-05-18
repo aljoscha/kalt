@@ -23,7 +23,7 @@ int main(void)
     /*parse_result subset = parse_create_subset(result,8,9);
     parse_dump(subset);
     subset = parse_create_subset(subset, 0,0);
-    parse_dump(subset);
-    parse_dispose_result(result);*/
+    parse_dump(subset);*/
+    parse_dispose_result(result);
     return 0;
 }
