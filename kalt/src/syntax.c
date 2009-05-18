@@ -27,6 +27,10 @@ syntax_result syntax_check(parse_result parse)
         {
             return result;
         }
+        else if (parse.tokens[0].type == TOKEN_NUMBER)
+        {
+            return result;
+        }
         else
         {
             result.success = 0;
@@ -47,6 +51,45 @@ syntax_result syntax_check(parse_result parse)
             parse_result subset = parse_create_subset(parse,2, parse.token_count - 1);
             return syntax_check(subset);
         }
+    }
+    if (parse.tokens[0].type == TOKEN_LSPAREN)
+    {
+        int index = 1;
+        while (index < parse.token_count)
+        {
+            if(parse.tokens[index].type == TOKEN_RSPAREN)
+            {
+                if (parse.tokens[index-1].type == TOKEN_COMMA)
+                {
+                    result.success = 0;
+                    result.error_str = "error: invalid array literal";
+                    return result;
+                }
+                return result;
+            }
+            else if(parse.tokens[index].type == TOKEN_NUMBER)
+            {
+            }
+            else if(parse.tokens[index].type == TOKEN_COMMA)
+            {
+                if (parse.tokens[index-1].type == TOKEN_COMMA)
+                {
+                    result.success = 0;
+                    result.error_str = "error: invalid array literal";
+                    return result;
+                }
+            }
+            else
+            {
+                result.success = 0;
+                result.error_str = "error: invalid array literal";
+                return result;
+            } 
+            index++; 
+        }
+        result.success = 0;
+        result.error_str = "error: invalid array literal";
+        return result;
     }
     if (parse.tokens[0].type == TOKEN_IDENTIFIER && parse.tokens[1].type == TOKEN_LPAREN)
     {
