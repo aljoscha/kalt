@@ -2,8 +2,8 @@
 #define KVAR_INC
 
 // consts
-#define MAX_NAME 20
-#define MAX_VARS 20
+#define MAX_NAME 30
+#define MAX_VARS 40
 
 // types
 typedef enum kvar_type_t
