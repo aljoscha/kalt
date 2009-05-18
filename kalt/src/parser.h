@@ -21,9 +21,9 @@ typedef struct parse_result_t
 } parse_result, *parse_result_ptr;
 
 parse_result parse_tokenize(char *text);
-void parse_dispose_result(parse_result);
-void parse_dump(parse_result);
-parse_result parse_create_subset(parse_result, int, int);
+void parse_dispose_result(parse_result parse);
+void parse_dump(parse_result parse);
+parse_result parse_create_subset(parse_result parse, int first, int last);
 
 #endif
 
