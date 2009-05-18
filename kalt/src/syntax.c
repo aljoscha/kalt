@@ -127,7 +127,7 @@ syntax_result syntax_check(parse_result parse)
                         }
                         else
                         {
-                            paren_depth++;
+                            paren_depth--;
                         }
                     } break;
                 case TOKEN_COMMA:
