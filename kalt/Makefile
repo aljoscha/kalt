@@ -19,7 +19,7 @@ $(BUILDDIR)/kalt : $(OBJS)
 $(BUILDDIR)/kalt.o : $(SRCDIR)/kalt.c
 	$(CC) -c $< $(CCFLAGS) -o $(BUILDDIR)/kalt.o
 
-$(BUILDDIR)/parser.o : $(SRCDIR)/parser.c
+$(BUILDDIR)/parser.o : $(SRCDIR)/parser.c $(SRCDIR)/parser.h
 	$(CC) -c $< $(CCFLAGS) -o $(BUILDDIR)/parser.o
 
 .PHONY : clean
