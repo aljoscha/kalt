@@ -112,6 +112,12 @@ syntax_result syntax_check(parse_result parse)
                     {
                         if (paren_depth == 0)
                         {
+                            if (parse.tokens[current_end-1].type == TOKEN_COMMA)
+                            {
+                                result.success = 0;
+                                result.error_str = "error: invalid function call";
+                                return result;
+                            }
                             subset = parse_create_subset(parse,current_start, current_end-1);
                             temp_result = syntax_check(subset);
                             if (temp_result.success == 0)
@@ -128,6 +134,12 @@ syntax_result syntax_check(parse_result parse)
                     {
                         if (paren_depth == 0)
                         {
+                            if (parse.tokens[current_end-1].type == TOKEN_COMMA)
+                            {
+                                result.success = 0;
+                                result.error_str = "error: invalid function call";
+                                return result;
+                            }
                             subset = parse_create_subset(parse,current_start, current_end-1);
                             temp_result = syntax_check(subset);
                             if (temp_result.success == 0)
