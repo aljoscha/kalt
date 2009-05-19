@@ -9,7 +9,7 @@
 int main(void)
 {
     printf("Welcome to kalt - Krettek Algorithmus Tester version %d\n", VERSION);
-    parse_result result = parse_tokenize("ali(bere,corni)");
+    parse_result result = parse_tokenize("foo(testc=[1,2,3],testc)");
     parse_dump(result);
     syntax_result syn_result = syntax_check(result);
     if (syn_result.success == 1)
@@ -19,6 +19,8 @@ int main(void)
     else
     {
         printf("Syntax error: %s\n", syn_result.error_str);
+        parse_dispose_result(result);
+        return 1;
     }
     bytecode_program program = compile_program(result);
     compile_dump_program(program);
