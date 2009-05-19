@@ -15,8 +15,8 @@ int create_array(parse_result parse, int** arr)
         if(parse.tokens[index].type == TOKEN_NUMBER)
             count++;
     }
-    count = 0;
     (*arr) = malloc(sizeof(int)*count);
+    count = 0;
     for(index = 0; index < parse.token_count; index++)
     {
         if(parse.tokens[index].type == TOKEN_NUMBER)
