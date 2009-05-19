@@ -5,7 +5,8 @@ KVARINCDIR = $(PROJECTROOT)/libkvar/include
 SRCDIR = src
 BUILDDIR = build
 
-OBJS = $(BUILDDIR)/kalt.o $(BUILDDIR)/parser.o $(BUILDDIR)/syntax.o $(BUILDDIR)/compile.o $(BUILDDIR)/functions.o
+OBJS = $(BUILDDIR)/kalt.o $(BUILDDIR)/parser.o $(BUILDDIR)/syntax.o $(BUILDDIR)/compile.o $(BUILDDIR)/functions.o $(BUILDDIR)/vm.o
+
 
 
 
@@ -31,6 +32,9 @@ $(BUILDDIR)/compile.o : $(SRCDIR)/compile.c $(SRCDIR)/compile.h
 
 $(BUILDDIR)/functions.o : $(SRCDIR)/functions.c $(SRCDIR)/functions.h $(SRCDIR)/parser.h
 	$(CC) -c $< $(CCFLAGS) -o $(BUILDDIR)/functions.o
+
+$(BUILDDIR)/vm.o : $(SRCDIR)/vm.c $(SRCDIR)/vm.h $(SRCDIR)/compile.h
+	$(CC) -c $< $(CCFLAGS) -o $(BUILDDIR)/vm.o
 
 .PHONY : clean
 clean:
