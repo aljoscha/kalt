@@ -89,6 +89,12 @@ int quicksort(int arr[], int first, int last)
     int m1, m2, m3;
     if (last > first)
     {
+        /*for(i = first; i <= last; i++)
+        {
+            printf("%d ",arr[i]);
+        }
+        printf("\n");*/
+
         quicksort_c++;
         //Pivot selection
         switch(quicksort_pivot_selection_method)
@@ -101,12 +107,12 @@ int quicksort(int arr[], int first, int last)
                 m2 = (first+last) / 2;
                 m3 = last;
                 /*printf("m1[%d:%d]  m2[%d:%d]  m2[%d:%d]\n", m1, arr[m1], m2, arr[m2], m3, arr[m3]);*/
-                if ((arr[m1] <= arr[m2] && arr[m2] <= arr[m3]) || (arr[m3] <= arr[m2] && arr[m2] <= arr[m1]))
-                    pivot = m2;
+                if ((arr[m1] <= arr[m3] && arr[m3] <= arr[m2]) || (arr[m2] <= arr[m3] && arr[m3] <= arr[m1]))
+                    pivot = m3;
                 else if ((arr[m2] <= arr[m1] && arr[m1] <= arr[m3]) || (arr[m3] <= arr[m1] && arr[m1] <= arr[m2]))
                     pivot = m1;
                 else
-                    pivot = m3; 
+                    pivot = m2; 
                 /*if(pivot == m2)
                 {
                 }//printf("selected middle elem\n");
@@ -122,12 +128,12 @@ int quicksort(int arr[], int first, int last)
                 m1 = first + (rand() %(last-first+1));
                 m2 = first + (rand() %(last-first+1));
                 m3 = first + (rand() %(last-first+1));
-                if ((arr[m1] <= arr[m2] && arr[m2] <= arr[m3]) || (arr[m3] <= arr[m2] && arr[m2] <= arr[m1]))
-                    pivot = m2;
+                if ((arr[m1] <= arr[m3] && arr[m3] <= arr[m2]) || (arr[m2] <= arr[m3] && arr[m3] <= arr[m1]))
+                    pivot = m3;
                 else if ((arr[m2] <= arr[m1] && arr[m1] <= arr[m3]) || (arr[m3] <= arr[m1] && arr[m1] <= arr[m2]))
                     pivot = m1;
                 else
-                    pivot = m3; 
+                    pivot = m2;
                 new_val = arr[first];
                 arr[first] = arr[pivot];
                 arr[pivot] = new_val;
@@ -153,7 +159,7 @@ int quicksort(int arr[], int first, int last)
         {
             printf("%d ",arr[i]);
         }
-        printf("\n");
+        printf("(%d) ", arr[pivot]);
         for(i = pivot+1; i <= last; i++)
         {
             printf("%d ",arr[i]);
