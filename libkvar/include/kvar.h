@@ -45,7 +45,10 @@ kvar_storage_ptr kvar_create_storage(void);
 void kvar_dispose_storage(kvar_storage_ptr);
 kvar_var_ptr kvar_get(kvar_storage_ptr, char *name);
 void kvar_set(kvar_storage_ptr, char *name, kvar_var_ptr);
+void kvar_copy(kvar_storage_ptr, char *src, char *dest);
 void kvar_delete(kvar_storage_ptr, char *name);
+
+int kvar_exists(kvar_storage_ptr, char *name);
 
 kvar_var_ptr kvar_create_number(int value);
 kvar_var_ptr kvar_create_array(int *content, int length);

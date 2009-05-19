@@ -78,6 +78,30 @@ void kvar_set(kvar_storage_ptr store, char *name, kvar_var_ptr var)
     }
 }
 
+void kvar_copy(kvar_storage_ptr store, char *src, char *dest)
+{
+    if (!(kvar_exists(store, src)))
+        return;
+        
+    printf("kvar_copy: copying %s to %s\n", src, dest);
+    kvar_delete(store, dest);
+    kvar_var_ptr src_var = kvar_get(store, src);
+    if (src_var->type == kvar_type_number)
+    {
+        kvar_var_ptr number_var = kvar_create_number(kvar_extract_number(src_var));
+        kvar_set(store, dest, number_var);
+    }
+    else if (src_var->type == kvar_type_array)
+    {
+        int *array = kvar_extract_array(src_var);
+        int length = kvar_extract_array_length(src_var);
+        if (array == NULL)
+            return;
+        kvar_var_ptr array_var = kvar_create_array(array, length);
+        kvar_set(store, dest, array_var);
+    }
+}
+
 void kvar_delete(kvar_storage_ptr store, char *name)
 {
     int index;
@@ -108,6 +132,19 @@ void kvar_delete(kvar_storage_ptr store, char *name)
         }
     }
 
+}
+
+int kvar_exists(kvar_storage_ptr store, char *name)
+{
+    int index;
+    for (index = 0; index < MAX_VARS; index++)
+    {
+        if (store->vars[index].content != NULL && strcmp(store->vars[index].name, name) == 0)
+        {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 kvar_var_ptr kvar_create_number(int value)
