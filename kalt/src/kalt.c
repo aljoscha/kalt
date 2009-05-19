@@ -1,5 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "parser.h"
 #include "syntax.h"
 #include "compile.h"
@@ -12,28 +15,7 @@
 int main(void)
 {
     printf("Welcome to kalt - Krettek Algorithmus Tester version %d\n", VERSION);
-    /*parse_result parse = parse_tokenize("test = foo(testc=[1,2,3],testc)");
-    parse_dump_result(parse);
-    syntax_result syn_parse = syntax_check(parse);
-    if (syn_parse.success == 1)
-    {
-        printf("Syntax correct.\n");
-    }
-    else
-    {
-        printf("Syntax error: %s\n", syn_parse.error_str);
-        parse_dispose_result(parse);
-        return 1;
-    }
-    bytecode_program program = compile_program(parse);
-    compile_dump_program(program);
-    
-    function_list functions = functions_load();
-    functions_dump_list(functions);
-
-    functions_dispose_list(functions);   
-    compile_dispose_program(program);
-    parse_dispose_result(parse);*/
+    printf("  have fun :D\n\n"); 
     parse_result parse;
     syntax_result syntax;
     bytecode_program program;
@@ -42,7 +24,7 @@ int main(void)
     int index;
     int *arr;
     int length;
-    char input[MAX_INPUT];
+    char *input;
     char *var_name;
     kvar_var_ptr kvar;
 
@@ -52,8 +34,7 @@ int main(void)
     int running = 1;
     while (running)
     {
-        printf("kalt> ");
-        gets(input);
+        input = readline("kalt> ");
         printf("input: %s\n", input);
         if (input[0] == ':')
         {
@@ -121,6 +102,7 @@ int main(void)
             compile_dispose_program(program);    
             parse_dispose_result(parse);
         }
+        free(input); // readline uses malloc so we have to do this
     }    
     functions_dispose_list(functions);
     kvar_dispose_storage(storage);
