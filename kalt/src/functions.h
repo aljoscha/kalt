@@ -2,7 +2,7 @@
 #define INCLUDE_FUNCTIONS_H
 
 #include "kvar.h"
-typedef kvar_var_ptr (*function_ptr_def)(int param_count, ...);
+typedef kvar_var_ptr (*function_ptr_def)(int param_count, kvar_storage_ptr store);
 
 typedef struct function_t
 {
@@ -22,5 +22,5 @@ void functions_dispose_list(function_list list);
 void functions_dump_list(function_list list);
 
 int functions_exists(function_list list, char *name);
-kvar_var_ptr functions_execute(function_list list, char *name, int param_count, kvar_store store);
+kvar_var_ptr functions_execute(function_list list, char *name, int param_count, kvar_storage_ptr store);
 #endif
