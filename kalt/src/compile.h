@@ -12,12 +12,12 @@ typedef struct bytecode_op_t
     bytecode_op_type op;
     union
     {
-        int literal_number;
+        int number_literal;
         struct
         {
             int count;
             int *elems;
-        } literal_array;
+        } array_literal;
         struct
         {
             int count;
@@ -28,7 +28,7 @@ typedef struct bytecode_op_t
 
 typedef struct bytecode_program_t
 {
-    int op_count;
+    int opcode_count;
     bytecode_op_ptr opcodes;
 } bytecode_program, *bytecode_program_ptr;
 

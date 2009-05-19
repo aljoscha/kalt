@@ -10,7 +10,7 @@ int main(void)
 {
     printf("Welcome to kalt - Krettek Algorithmus Tester version %d\n", VERSION);
     parse_result result = parse_tokenize("foo(testc=[1,2,3],testc)");
-    parse_dump(result);
+    parse_dump_result(result);
     syntax_result syn_result = syntax_check(result);
     if (syn_result.success == 1)
     {

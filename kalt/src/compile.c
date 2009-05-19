@@ -41,13 +41,13 @@ bytecode_program _compile_program(parse_result parse, int first_temp)
         case TOKEN_NUMBER:
             {
                 ops[num_opcodes].op = OP_NUMBER_LITERAL;
-                ops[num_opcodes].literal_number = atoi(parse.tokens[0].text);
+                ops[num_opcodes].number_literal = atoi(parse.tokens[0].text);
                 num_opcodes++;
             } break;
         case TOKEN_LSPAREN:
             {
                 ops[num_opcodes].op = OP_ARRAY_LITERAL;
-                ops[num_opcodes].literal_array.count = create_array(parse, &ops[num_opcodes].literal_array.elems);
+                ops[num_opcodes].array_literal.count = create_array(parse, &ops[num_opcodes].array_literal.elems);
                 num_opcodes++;  
             } break;
         case TOKEN_IDENTIFIER:
@@ -66,9 +66,9 @@ bytecode_program _compile_program(parse_result parse, int first_temp)
                     bytecode_program intermediate_program;
                     parse_result parse_subset = parse_create_subset(parse, 2, parse.token_count-1);
                     intermediate_program = _compile_program(parse_subset, 0);
-                    memcpy(ops, intermediate_program.opcodes, sizeof(bytecode_op)*intermediate_program.op_count);
+                    memcpy(ops, intermediate_program.opcodes, sizeof(bytecode_op)*intermediate_program.opcode_count);
                     free(intermediate_program.opcodes);
-                    num_opcodes+=intermediate_program.op_count;
+                    num_opcodes+=intermediate_program.opcode_count;
 
                     ops[num_opcodes].op = OP_COPY_VAR;
                     ops[num_opcodes].parameters.count = 2;
@@ -128,9 +128,9 @@ bytecode_program _compile_program(parse_result parse, int first_temp)
                                             bytecode_program intermediate_program;
                                             parse_result parse_subset = parse_create_subset(parse, current_start, current_end-1);
                                             intermediate_program = _compile_program(parse_subset, num_params);
-                                            memcpy(&ops[num_opcodes], intermediate_program.opcodes, sizeof(bytecode_op)*intermediate_program.op_count);
+                                            memcpy(&ops[num_opcodes], intermediate_program.opcodes, sizeof(bytecode_op)*intermediate_program.opcode_count);
                                             free(intermediate_program.opcodes);
-                                            num_opcodes+=intermediate_program.op_count;
+                                            num_opcodes+=intermediate_program.opcode_count;
 
                                             //copy the _result to the temp_var
                                             ops[num_opcodes].op = OP_COPY_VAR;
@@ -163,7 +163,7 @@ bytecode_program _compile_program(parse_result parse, int first_temp)
                 }
             } break;
     }
-    result.op_count = num_opcodes;
+    result.opcode_count = num_opcodes;
     result.opcodes = malloc(sizeof(bytecode_op)*num_opcodes);
     memcpy(result.opcodes, ops, sizeof(bytecode_op)*num_opcodes);
     return result;
@@ -173,13 +173,13 @@ void compile_dispose_program(bytecode_program program)
 {
     int index;
     int index2;
-    for(index = 0; index < program.op_count; index++)
+    for(index = 0; index < program.opcode_count; index++)
     {
         switch(program.opcodes[index].op)
         {
             case OP_ARRAY_LITERAL:
                 {
-                    free(program.opcodes[index].literal_array.elems);
+                    free(program.opcodes[index].array_literal.elems);
                 } break;
             case OP_VAR:
                 {
@@ -219,23 +219,23 @@ void compile_dump_program(bytecode_program program)
 {
     printf("Dumping bytecode program...\n");
     int index, index2;
-    for (index = 0; index < program.op_count; index++)
+    for (index = 0; index < program.opcode_count; index++)
     {
         bytecode_op op = program.opcodes[index];
         switch (op.op)
         {
             case OP_NUMBER_LITERAL:
                 {
-                    printf("OP_NUMBER_LITERAL %d\n", op.literal_number);
+                    printf("OP_NUMBER_LITERAL %d\n", op.number_literal);
                 } break;
             case OP_ARRAY_LITERAL:
                 {
                     printf("OP_ARRAY_LITERAL [");
-                    for(index2 = 0; index2 < op.literal_array.count-1; index2++)
+                    for(index2 = 0; index2 < op.array_literal.count-1; index2++)
                     {
-                        printf("%d,", op.literal_array.elems[index2]);
+                        printf("%d,", op.array_literal.elems[index2]);
                     }
-                    printf("%d]\n",op.literal_array.elems[index2]);
+                    printf("%d]\n",op.array_literal.elems[index2]);
                 } break;
             case OP_VAR:
                 {

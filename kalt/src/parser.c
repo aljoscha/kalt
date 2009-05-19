@@ -180,7 +180,7 @@ parse_result parse_create_subset(parse_result parse, int first, int last)
     return subset;
 }
 
-void parse_dump(parse_result parse)
+void parse_dump_result(parse_result parse)
 {
     int index;
     printf("Dumping parse result...\n");
