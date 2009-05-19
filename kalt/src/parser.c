@@ -20,7 +20,7 @@ parse_result parse_tokenize(char *text)
     int token_count = 0;
     int text_position = 0;
     int parsed_position = 0;
-    char current_parse[21];
+    char current_parse[MAX_IDENTIFIER_LENGTH];
     int currently_parsing = 0;
     while (text[text_position] != '\0')
     {
