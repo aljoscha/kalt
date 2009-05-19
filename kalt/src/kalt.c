@@ -2,6 +2,7 @@
 #include "parser.h"
 #include "syntax.h"
 #include "compile.h"
+#include "kvar.h"
 
 #define VERSION 1
 
