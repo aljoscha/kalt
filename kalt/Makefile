@@ -10,7 +10,7 @@ OBJS = $(BUILDDIR)/kalt.o $(BUILDDIR)/parser.o $(BUILDDIR)/syntax.o $(BUILDDIR)/
 
 
 LDFLAGS = -L$(KVARLIBDIR) -lkvar
-CCFLAGS = -I$(KVARINCDIR)
+CCFLAGS = -I$(KVARINCDIR) -g
 
 
 
