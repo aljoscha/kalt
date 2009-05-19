@@ -83,7 +83,9 @@ void kvar_copy(kvar_storage_ptr store, char *src, char *dest)
     if (!(kvar_exists(store, src)))
         return;
         
+#ifdef DEBUG
     printf("kvar_copy: copying %s to %s\n", src, dest);
+#endif
     kvar_delete(store, dest);
     kvar_var_ptr src_var = kvar_get(store, src);
     if (src_var->type == kvar_type_number)
