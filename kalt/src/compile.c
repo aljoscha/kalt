@@ -30,6 +30,7 @@ int create_array(parse_result parse, int** arr)
 
 bytecode_program _compile_program(parse_result parse, int first_temp)
 {
+    int index;
     bytecode_program result;
     bytecode_op ops[MAX_OPCODES];
     int num_opcodes = 0;
@@ -140,15 +141,19 @@ bytecode_program _compile_program(parse_result parse, int first_temp)
                             current_end++;
                         }
                     }
-
-                    /*ops[num_opcodes].op = OP_FCALL;
-                    ops[num_opcodes].parameters.count = 2;
-                    ops[num_opcodes].parameters.names = malloc(sizeof(char*)*2);
-                    ops[num_opcodes].parameters.names[0] = malloc(strlen("_result")+1);
-                    ops[num_opcodes].parameters.names[1] = malloc(strlen(parse.tokens[0].text)+1);
-                    strcpy(ops[num_opcodes].parameters.names[0], "_result");
-                    strcpy(ops[num_opcodes].parameters.names[1], parse.tokens[0].text);
-                    num_opcodes++;*/
+                    printf("num params: %d\n",num_params);
+                    printf("fnmae: %s\n", parse.tokens[0].text);   
+                    ops[num_opcodes].op = OP_FCALL;
+                    ops[num_opcodes].parameters.count = num_params+1; // +1 for the function name
+                    ops[num_opcodes].parameters.names = malloc(sizeof(char*)*num_params+1);
+                    ops[num_opcodes].parameters.names[0] = malloc(strlen(parse.tokens[0].text)+1);
+                    strcpy(ops[num_opcodes].parameters.names[0], parse.tokens[0].text);
+                    for(index = 0; index < num_params-1; index++)
+                    {
+                        ops[num_opcodes].parameters.names[index+1] = malloc(strlen("_temp   ")+1);
+                        sprintf(ops[num_opcodes].parameters.names[index+1], "_temp%d", index+1);
+                    }
+                    num_opcodes++;
                 }
             } break;
     }
@@ -174,7 +179,7 @@ void compile_dispose_program(bytecode_program program)
                 {
                     for (index2 = 0; index2 < program.opcodes[index].parameters.count; index2++)
                     {
-                        free(program.opcodes[index2].parameters.names[index2]);
+                        free(program.opcodes[index].parameters.names[index2]);
                     }
                     free(program.opcodes[index].parameters.names);
                 } break;
@@ -237,7 +242,7 @@ void compile_dump_program(bytecode_program program)
             case OP_FCALL:
                 {
                     printf("OP_FCALL ");
-                    for(index2 = 0; index2 < op.parameters.count-1; index2++)
+                    for(index2 = 0; index2 < op.parameters.count; index2++)
                     {
                         printf("%d,", op.parameters.names[index2]);
                     }
