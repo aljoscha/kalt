@@ -53,6 +53,11 @@ int vm_execute(bytecode_program program, function_list functions, kvar_storage_p
                     return 0;
                 }
                 kvar = functions_execute(functions, fname, param_count, storage);
+                if (kvar == NULL)
+                {
+                    printf("aborting execution\n");
+                    return 0;
+                }
                 kvar_set(storage, "_result", kvar);
                 break;
         }   
