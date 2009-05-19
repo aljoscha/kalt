@@ -7,8 +7,16 @@
 
 kvar_var_ptr dummy(int param_count, kvar_storage_ptr store)
 {
+    printf("called dummy with %d params\n", param_count);
     int nums[10] = {0,1,2,3,4,5,6,7,8,9};
     return kvar_create_array(nums,10);
+}
+
+int my_random(void)
+{
+    static int x = 0;
+    x = (5*x+7) % 1024;
+    return x;
 }
 
 function_list functions_load(void)

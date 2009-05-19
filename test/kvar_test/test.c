@@ -29,7 +29,7 @@ int main(void)
     
     kvar_copy(store, "arr", "arr_two");
     kvar_delete(store, "arr");
-    kvar_copy(store, "foo", "foo_two");
+    kvar_copy(store, "foo", "foo");
     kvar_delete(store, "foo");
     kvar_print_vars(store);    
     kvar_dispose_storage(store);    

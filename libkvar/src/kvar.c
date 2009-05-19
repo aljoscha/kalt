@@ -5,12 +5,12 @@
 #include <string.h>
 
 #define VERSION 1
-#define DEBUG 1
+//#define DEBUG 0
 
 #ifdef DEBUG
 #define DOUT(text) (printf("%s",text))
 #else
-#define DOUT(text) ()
+#define DOUT(text)
 #endif
 
 kvar_storage_ptr kvar_create_storage(void)
