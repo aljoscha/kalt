@@ -24,7 +24,7 @@ int main(void)
     int index;
     int *arr;
     int length;
-    char *input;
+    char input[MAX_INPUT];
     char *var_name;
     kvar_var_ptr kvar;
 
@@ -34,7 +34,8 @@ int main(void)
     int running = 1;
     while (running)
     {
-        input = readline("kalt> ");
+        printf("kalt> ");
+        gets(input);
         printf("input: %s\n", input);
         if (input[0] == ':')
         {
@@ -102,7 +103,7 @@ int main(void)
             compile_dispose_program(program);    
             parse_dispose_result(parse);
         }
-        free(input); // readline uses malloc so we have to do this
+        //free(input); // readline uses malloc so we have to do this
     }    
     functions_dispose_list(functions);
     kvar_dispose_storage(storage);
