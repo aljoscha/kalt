@@ -99,6 +99,14 @@ bytecode_program _compile_program(parse_result parse, int first_temp)
                                     {
                                         paren_depth++;    
                                     } break;
+                                case TOKEN_LSPAREN:
+                                    {
+                                        paren_depth++;    
+                                    } break;
+                                case TOKEN_RSPAREN:
+                                    {
+                                        paren_depth--;    
+                                    } break;
                                 case TOKEN_RPAREN:
                                     {
                                         if (paren_depth == 0)
@@ -141,14 +149,12 @@ bytecode_program _compile_program(parse_result parse, int first_temp)
                             current_end++;
                         }
                     }
-                    printf("num params: %d\n",num_params);
-                    printf("fnmae: %s\n", parse.tokens[0].text);   
                     ops[num_opcodes].op = OP_FCALL;
                     ops[num_opcodes].parameters.count = num_params+1; // +1 for the function name
-                    ops[num_opcodes].parameters.names = malloc(sizeof(char*)*num_params+1);
+                    ops[num_opcodes].parameters.names = malloc(sizeof(char*)*(num_params+1));
                     ops[num_opcodes].parameters.names[0] = malloc(strlen(parse.tokens[0].text)+1);
                     strcpy(ops[num_opcodes].parameters.names[0], parse.tokens[0].text);
-                    for(index = 0; index < num_params-1; index++)
+                    for(index = 0; index < num_params; index++)
                     {
                         ops[num_opcodes].parameters.names[index+1] = malloc(strlen("_temp   ")+1);
                         sprintf(ops[num_opcodes].parameters.names[index+1], "_temp%d", index+1);
@@ -242,11 +248,11 @@ void compile_dump_program(bytecode_program program)
             case OP_FCALL:
                 {
                     printf("OP_FCALL ");
-                    for(index2 = 0; index2 < op.parameters.count; index2++)
+                    for(index2 = 0; index2 < op.parameters.count-1; index2++)
                     {
-                        printf("%d,", op.parameters.names[index2]);
+                        printf("%s,", op.parameters.names[index2]);
                     }
-                    printf("%d\n",op.parameters.names[index2]);
+                    printf("%s\n",op.parameters.names[index2]);
                 } break;
         } 
     }

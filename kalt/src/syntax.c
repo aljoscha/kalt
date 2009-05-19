@@ -14,6 +14,8 @@
 
 syntax_result syntax_check(parse_result parse)
 {
+    //printf("cheking: ");
+    //parse_dump(parse);
     syntax_result result;
     result.success = 1;
     result.error_str = "no error";
@@ -107,6 +109,14 @@ syntax_result syntax_check(parse_result parse)
                 case TOKEN_LPAREN:
                     {
                         paren_depth++;    
+                    } break;
+                case TOKEN_LSPAREN:
+                    {
+                        paren_depth++;    
+                    } break;
+                case TOKEN_RSPAREN:
+                    {
+                        paren_depth--;    
                     } break;
                 case TOKEN_RPAREN:
                     {
