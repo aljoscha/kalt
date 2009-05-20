@@ -46,6 +46,7 @@ int main(void)
                     printf(":? print this help\n");
                     printf(":q quit\n");
                     printf(":s show value of variable\n");
+                    printf(":l list all variables\n");
                     break;
                 case 'q':
                     running = 0;
@@ -73,6 +74,10 @@ int main(void)
                         }
                         printf("%d]\n", arr[index]);
                     }
+                    break;
+                case 'l':
+                    printf("variables:\n");
+                    kvar_print_vars(storage);
                     break;
                 default:
                     printf("unrecognized command, :? for help\n");
