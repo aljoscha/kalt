@@ -37,6 +37,13 @@ int main(void)
         printf("kalt> ");
         //gets(input);
         fgets(input, MAX_INPUT, stdin);
+        for (index = 0; index < strlen(input); index++)
+        {
+            if (input[index] == '\n' || input[index] == '\r')
+            {
+                input[index] = '\0';
+            }
+        }
         printf("input: %s\n", input);
         if (input[0] == ':')
         {
