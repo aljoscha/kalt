@@ -36,6 +36,7 @@ int main(void)
     {
         printf("kalt> ");
         gets(input);
+        //fgets(input, MAX_INPUT, stdin);
         printf("input: %s\n", input);
         if (input[0] == ':')
         {
