@@ -4,6 +4,13 @@
 #include <stdio.h>
 #include <string.h>
 
+// For file descriptors
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+
 
 kvar_var_ptr dummy(int param_count, kvar_storage_ptr store)
 {
@@ -41,8 +48,40 @@ kvar_var_ptr dyson_random(int param_count, kvar_storage_ptr store)
     arr = malloc(sizeof(int)*count);
     for (index = 0; index < count; index++)
     {
+        arr[index] = my_random();
+    }
+    result = kvar_create_array(arr, count);
+    free(arr);
+    return result;
+}
+
+kvar_var_ptr urandom_random(int param_count, kvar_storage_ptr store)
+{
+    kvar_var_ptr param1;
+    kvar_var_ptr result;;
+    int count;
+    int index;
+    int *arr;
+    if (param_count != 1)
+    {
+        printf("random: usage: random(values), random returns values values\n");
+        return NULL;
+    }
+    param1 = kvar_get(store, "_temp1");
+    if (param1->type != kvar_type_number)
+    {
+        printf("param 1 must be a number\n");
+        return NULL;
+    }
+    count = kvar_extract_number(param1);
+    arr = malloc(sizeof(int)*count);
+    int file = open("/dev/urandom",O_RDONLY);
+    for (index = 0; index < count; index++)
+    {
+        read(file, &arr[index], sizeof(int));
         arr[index] = rand(); //my_random();
     }
+    close(file);
     result = kvar_create_array(arr, count);
     free(arr);
     return result;
@@ -279,7 +318,7 @@ function_list functions_load(void)
 {
     function_list result;
 
-    result.function_count = 5;
+    result.function_count = 6;
 
     result.functions = malloc(sizeof(function)*result.function_count);
 
@@ -291,17 +330,21 @@ function_list functions_load(void)
     strcpy(result.functions[1].name, "random");
     result.functions[1].func = &dyson_random;
 
-    result.functions[2].name = malloc(strlen("descending")+1);
-    strcpy(result.functions[2].name, "descending");
-    result.functions[2].func = &dyson_descending;
+    result.functions[2].name = malloc(strlen("urandom")+1);
+    strcpy(result.functions[2].name, "urandom");
+    result.functions[2].func = &urandom_random;
 
-    result.functions[3].name = malloc(strlen("quicksort")+1);
-    strcpy(result.functions[3].name, "quicksort");
-    result.functions[3].func = &quicksort_interface;
+    result.functions[3].name = malloc(strlen("descending")+1);
+    strcpy(result.functions[3].name, "descending");
+    result.functions[3].func = &dyson_descending;
 
-    result.functions[4].name = malloc(strlen("quicksorttest")+1);
-    strcpy(result.functions[4].name, "quicksorttest");
-    result.functions[4].func = &quicksort_test_interface;
+    result.functions[4].name = malloc(strlen("quicksort")+1);
+    strcpy(result.functions[4].name, "quicksort");
+    result.functions[4].func = &quicksort_interface;
+
+    result.functions[5].name = malloc(strlen("quicksorttest")+1);
+    strcpy(result.functions[5].name, "quicksorttest");
+    result.functions[5].func = &quicksort_test_interface;
 
     return result;
 }
