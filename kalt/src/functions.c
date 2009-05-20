@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 // For file descriptors
 #include <sys/types.h>
@@ -275,7 +276,8 @@ kvar_var_ptr quicksort_interface(int param_count, kvar_storage_ptr store)
 kvar_var_ptr quicksort_test_interface(int param_count, kvar_storage_ptr store)
 {
     kvar_var_ptr param1;
-    kvar_var_ptr result;;
+    kvar_var_ptr result;
+    long int time_diff;
     int count;
     int *arr;
     if (param_count != 1)
@@ -292,17 +294,19 @@ kvar_var_ptr quicksort_test_interface(int param_count, kvar_storage_ptr store)
         printf("param 1 must be an array\n");
         return NULL;
     }
+
     count = kvar_extract_array_length(param1);
     arr = kvar_extract_array(param1);
-
     quicksort_p = quicksort_s = quicksort_c = 0;
     quicksort_p = 1;
     quicksort_pivot_selection_method = FIRST; 
+    time_diff = clock();
     quicksort(arr,0, count-1);
     printf("quicksort variant 1 (select first element as pivot): \n");
     printf("  p: %ld\n", quicksort_p);
     printf("  s: %ld\n", quicksort_s);
     printf("  c: %ld\n", quicksort_c);
+    printf("  runtime: %ld msecs\n", (clock()-time_diff)/1000);
 
     kvar_copy(store, "_temp", "_temp1");
     param1 = kvar_get(store, "_temp1");
@@ -316,11 +320,13 @@ kvar_var_ptr quicksort_test_interface(int param_count, kvar_storage_ptr store)
     quicksort_p = quicksort_s = quicksort_c = 0;
     quicksort_p = 1;
     quicksort_pivot_selection_method = MEDIAN; 
+    time_diff = clock();
     quicksort(arr,0, count-1);
     printf("quicksort variant 2 (select median of start median and end as pivot): \n");
     printf("  p: %ld\n", quicksort_p);
     printf("  s: %ld\n", quicksort_s);
     printf("  c: %ld\n", quicksort_c);
+    printf("  runtime: %ld msecs\n", (clock()-time_diff)/1000);
 
     kvar_copy(store, "_temp", "_temp1");
     param1 = kvar_get(store, "_temp1");
@@ -334,11 +340,13 @@ kvar_var_ptr quicksort_test_interface(int param_count, kvar_storage_ptr store)
     quicksort_p = quicksort_s = quicksort_c = 0;
     quicksort_p = 1;
     quicksort_pivot_selection_method = RANDOM_MEDIAN; 
+    time_diff = clock();
     quicksort(arr,0, count-1);
     printf("quicksort variant 3 (select median of 3 randoms as pivot): \n");
     printf("  p: %ld\n", quicksort_p);
     printf("  s: %ld\n", quicksort_s);
     printf("  c: %ld\n", quicksort_c);
+    printf("  runtime: %ld msecs\n", (clock()-time_diff)/1000);
 
     result = kvar_create_array(arr, count);
     return result;
