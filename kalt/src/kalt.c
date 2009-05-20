@@ -55,6 +55,7 @@ int main(void)
                     if (!kvar_exists(storage, var_name))
                     {
                         printf("%s is not defined\n", var_name);
+                        continue;
                     }
                     kvar = kvar_get(storage, var_name);
                     if (kvar->type == kvar_type_number)
