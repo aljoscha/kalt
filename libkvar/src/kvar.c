@@ -233,13 +233,13 @@ void kvar_print_vars(kvar_storage_ptr store)
                     } break;
                 case kvar_type_array:
                     {
-                        printf("%s: ", store->vars[index].name);
+                        printf("%s: [", store->vars[index].name);
                         arr = store->vars[index].content->array;
-                        for (index2 = 0; index2 < arr->length; index2++)
+                        for (index2 = 0; index2 < arr->length-1; index2++)
                         {
-                            printf("%d ", arr->array[index2]);
+                            printf("%d,", arr->array[index2]);
                         }
-                        printf("\n");
+                        printf("%d]\n", arr->array[index2]);
                     } break;
             } 
         }
