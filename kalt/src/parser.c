@@ -125,7 +125,7 @@ parse_result parse_tokenize(char *text)
             text_position++;
             continue;
         }
-
+        text_position++;
     }
 
     if (parsed_position > 0)

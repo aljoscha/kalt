@@ -35,8 +35,8 @@ int main(void)
     while (running)
     {
         printf("kalt> ");
-        gets(input);
-        //fgets(input, MAX_INPUT, stdin);
+        //gets(input);
+        fgets(input, MAX_INPUT, stdin);
         printf("input: %s\n", input);
         if (input[0] == ':')
         {
