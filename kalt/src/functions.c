@@ -183,7 +183,7 @@ int quicksort(int arr[], int first, int last)
     int i, pivot, new_val;
     int m1, m2, m3;
     quicksort_c++;
-    if (last >= first && (((last-first)+1) <= bubble_length))
+    if (last > first && (((last-first)+1) <= bubble_length))
     {
         quicksort_p++;
         return bubblesort(arr,first,last);
@@ -296,7 +296,7 @@ kvar_var_ptr quicksort_test_interface(int param_count, kvar_storage_ptr store)
         printf("quicksort: usage: quicksort(array)\n");
         return NULL;
     }
-    int selected_bubble_length = 7;
+    int selected_bubble_length = 9;
 
     kvar_copy(store,"_temp1", "_temp");
 
