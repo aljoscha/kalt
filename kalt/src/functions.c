@@ -257,7 +257,9 @@ int quicksort(int arr[], int first, int last)
 kvar_var_ptr quicksort_interface(int param_count, kvar_storage_ptr store)
 {
     kvar_var_ptr param1;
-    kvar_var_ptr result;;
+    kvar_var_ptr result;
+    test_results results = test_create_results();
+    long int time_diff;
     int count;
     int *arr;
     if (param_count != 1)
@@ -276,19 +278,17 @@ kvar_var_ptr quicksort_interface(int param_count, kvar_storage_ptr store)
     arr = kvar_extract_array(param1);
     quicksort_p = quicksort_s = quicksort_c = 0;
     quicksort_pivot_selection_method = FIRST; 
+    time_diff = clock();
     quicksort(arr,0, count-1);
-    printf("quicksort variant 1 (select first element as pivot): \n");
-    printf("  p: %ld\n", quicksort_p);
-    printf("  s: %ld\n", quicksort_s);
-    printf("  c: %ld\n", quicksort_c);
-    result = kvar_create_array(arr, count);
-    return result;
+    test_add_result(&results,"quicksort variant 1 (select first element as pivot)", quicksort_p, quicksort_s, quicksort_c, (clock()-time_diff)/1000);
+    test_print_results(results);
+    test_dispose_results(&results);
+    return kvar_create_array(arr, count);
 }
 
 kvar_var_ptr quicksort_test_interface(int param_count, kvar_storage_ptr store)
 {
     kvar_var_ptr param1;
-    kvar_var_ptr result;
     test_results results = test_create_results();
     long int time_diff;
     int count;
@@ -401,8 +401,7 @@ kvar_var_ptr quicksort_test_interface(int param_count, kvar_storage_ptr store)
     test_print_results(results);
     test_dispose_results(&results);
 
-    result = kvar_create_array(arr, count);
-    return result;
+    return kvar_create_array(arr, count);
 }
 
 function_list functions_load(void)
