@@ -39,9 +39,14 @@ int vm_execute(bytecode_program program, function_list functions, kvar_storage_p
                 break;
             case OP_VAR: // copy the var to _result
                 DOUT("vm: OP_VAR\n");
+                if (!kvar_exists(storage, program.opcodes[index].parameters.names[0]))
+                {
+                    printf("variable %s does not exist, aborting execution\n", program.opcodes[index].parameters.names[0]);
+                    return 0;
+                }
                 kvar_copy(storage, program.opcodes[index].parameters.names[0], "_result");
                 break;
-            case OP_FCALL: // copy the var to _result
+            case OP_FCALL: // call the function and put the result in _result kvar
                 DOUT("vm: OP_FCALL\n");
                 fname = program.opcodes[index].parameters.names[0];
                 param_count = program.opcodes[index].parameters.count;
