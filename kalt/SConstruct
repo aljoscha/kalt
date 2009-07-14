@@ -1,0 +1,1 @@
+Program('build/kalt', Glob('src/*.c'), LIBS=['kvar'], LIBPATH='../libkvar/lib', CPPPATH='../libkvar/include')

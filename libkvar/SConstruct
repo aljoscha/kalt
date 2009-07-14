@@ -1,0 +1,1 @@
+Library('lib/kvar', 'src/kvar.c', CPPPATH='include')
